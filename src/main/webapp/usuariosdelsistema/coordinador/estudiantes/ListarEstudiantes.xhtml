@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
+    <h:head>
+        <title>Listar estudiante</title>
+    </h:head>
+    <h:body>
+
+        <!-- IMPLEMENTATION -->
+        <ui:composition template="/plantillas/Coordinador.xhtml">
+            <ui:define name="content"> 
+                <div class="ui-messages-info ">
+                    <span class="ui-messages-info-detail">
+                        <b>Listado General de Estudiantes</b>
+                    </span>
+                </div>
+
+                <h:form>
+                    <p:growl autoUpdate="true" showDetail="true"/>
+
+                    <p:dataTable  id="tablaEstudiantes" 
+                                  value="#{estudianteController.items}" 
+
+                                  var="est" 
+                                  widgetVar="UsuarioListDialog"
+                                  paginator="true"
+                                  rowKey="#{est.estId}"
+                                  rows="10"
+                                  paginatorTemplate=" {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                  rowsPerPageTemplate="10,20,30,40,50" 
+                                  emptyMessage="No tiene estudiantes registrados o no se encuentra ninguno con el criterio de busqueda."
+                                  style="text-align: left;"
+                                  >
+                        <f:facet name="header">
+                            <p:outputPanel>
+                                <h:outputText value="Buscar en todos los campos:   " />
+                                <p:inputText id="globalFilter" onkeyup="PF('UsuarioListDialog').filter()" placeholder="Ingrese el código, nombres o apellidos del estudiante" style="width:450px"/>
+                            </p:outputPanel>
+                        </f:facet>
+                        <p:separator />
+                        <br/>
+                        <p:column filterBy="#{est.estCodigo}" filterMatchMode="contains" headerText="Código" styleClass="addEspacio">
+                            <h:outputText value="#{est.estCodigo}"></h:outputText>
+                        </p:column>
+
+                        <p:column filterBy="#{est.usuId.nombres}" filterMatchMode="contains" headerText="Nombres" styleClass="addEspacio">
+                            <h:outputText value="#{est.usuId.nombres}"></h:outputText>
+                        </p:column>
+
+                        <p:column filterBy="#{est.usuId.apellidos}" filterMatchMode="contains" headerText="Apellidos" styleClass="addEspacio">
+                            <h:outputText value="#{est.usuId.apellidos}"></h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Acciones" styleClass="addEspacio">                           
+                            <p:commandButton style="margin-left: 10px;" action="#{estudianteController.verEstudiante(est)}" value="Ver" class="btn btn-success btn_listaEstudiantes"/>
+                            <p:commandButton style="margin-left: 10px;" action="#{estudianteController.editarEstudiante(est)}" value="Editar" class="btn btn-warning btn_listaEstudiantes"/>
+                        </p:column>                
+                    </p:dataTable>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+
+
+

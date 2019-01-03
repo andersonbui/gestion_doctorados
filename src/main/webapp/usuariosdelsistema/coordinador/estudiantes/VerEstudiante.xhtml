@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <h:head>
+        <title>Ver estudiante</title>
+    </h:head>
+
+    <ui:composition template="./../../../plantillas/Coordinador.xhtml">
+        <ui:define name="content"> 
+            <div class="ui-messages-info ">
+                <span class="ui-messages-info-detail">
+                    <b>Información Estudiante</b>
+                </span>
+            </div>
+
+            <h:form id="form_registrar">
+                <p:tab  title="Datos personales" titleStyleClass="title">             
+                    <p:panel header="Datos personales">
+                        <div style = "float: left;"></div>
+
+                        <h:panelGrid columns="2" cellpadding="5" styleClass="elementosCentrados bajarGrid" id="panelRegistrar">
+
+                            <p:outputLabel value="Nombres:" for="valNombre" style="font-weight:bold;"/>
+                            <h:outputText class="form-control" id="valNombre" value="#{estudianteController.selected.usuId.nombres}" styleClass="addEspacio form-control" style="color: #3366ff"/>
+
+                            <p:outputLabel value="Apellidos:" for="valApellido" style="font-weight:bold;"/>
+                            <h:outputText class="form-control" id="valApellido"  value="#{estudianteController.selected.usuId.apellidos}" styleClass="addEspacio form-control" style="color: #3366ff"/>
+
+                            <p:outputLabel value="Código:" for="valCodigo" style="font-weight:bold;"/>
+                            <h:outputText class="form-control" id="valCodigo" value="#{estudianteController.selected.estCodigo}" styleClass="addEspacio form-control" style="color: #3366ff"/>
+
+                            <p:outputLabel value="Correo electrónico:" for="valCorreo" style="font-weight:bold;"/>
+                            <h:outputText class="form-control" id="valCorreo" value="#{estudianteController.selected.usuId.correo}" styleClass="addEspacio form-control" style="color: #3366ff"/>
+
+                            <p:outputLabel value="Nombre tutor:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" for="valNombreTutor" style="font-weight:bold;"/>
+                            <h:outputText class="form-control" id="valNombreTutor" value="#{estudianteController.selected.estTutor}" styleClass="addEspacio form-control" style="color: #3366ff"/>
+
+                            <p:outputLabel value="Cohorte:" for="valCohorte" style="font-weight:bold;"/>
+                            <h:outputText class="form-control" id="valCohorte" value="#{estudianteController.selected.estCohorte}" styleClass="addEspacio form-control" style="color: #3366ff"/>                        
+
+                            <p:outputLabel value="Semestre:" for="valSemestre" style="font-weight:bold;"/>
+                            <h:outputText class="form-control"  id="valSemestre" value="#{estudianteController.selected.estSemestre}" styleClass="addEspacio form-control" style="color: #3366ff"/>
+
+                            <p:outputLabel value="Estado:" for="valEstado" style="font-weight:bold;"/>
+                            <h:outputText class="form-control"  id="valEstado" value="#{estudianteController.selected.usuId.estado}" styleClass="addEspacio form-control" style="color: #3366ff"/>
+
+
+                            <p:outputLabel value="Número de creditos:&nbsp;&nbsp;&nbsp;" for="valCreditos" style="font-weight:bold;"/>
+                            <h:outputText class="form-control"  id="valCreditos" value="#{estudianteController.selected.estCreditos}" styleClass="addEspacio form-control" style="color: #3366ff"/>
+
+                        </h:panelGrid>
+                    </p:panel>
+
+                    <br/>
+                    <h:form>
+                        <p:commandButton value="Atrás" action="#{vistasCoordinadorController.listarEstudiantes()}" class="btn btn-primary" />                       
+                    </h:form>
+                    <br/>
+                    <br/>
+                </p:tab>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

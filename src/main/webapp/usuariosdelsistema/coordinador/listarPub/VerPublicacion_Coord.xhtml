@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <h:head>
+        <title>Ver Publicacion</title>
+    </h:head>
+
+    <ui:composition template="./../../../plantillas/Coordinador.xhtml">
+        <ui:define name="content"> 
+            <div class="ui-messages-info ">
+                <span class="ui-messages-info-detail">
+                    <b>Información de Publicación</b>
+                </span>
+            </div>
+
+            <h:form id="form_registrar">
+                <p:tab  title="Información Publicación" titleStyleClass="title">             
+                    <p:panel header="Datos Generales">
+                        <h:panelGrid columns="2" cellspacing="5"  styleClass="elementosCentrados bajarGrid"  >
+                            <p:outputLabel value="Nombre autor:" style="font-weight:bold;"/>
+                            <p:outputLabel class="form-control" id="valNombAut" value="#{documentacionController.selected.estId.usuId.nombres}" style="color: #3366ff"/>
+
+
+                            <p:outputLabel value="Tipo publicación:&nbsp;&nbsp;&nbsp;" for="valTipoPub" style="font-weight:bold;"/>
+                            <h:outputText class="form-control" id="valTipoPub"  value="#{documentacionController.selected.idTipoDocumentacion.nombre}" styleClass="addEspacio form-control" style="color: #3366ff"/>
+
+
+                            <p:outputLabel value="Fecha publicación:&nbsp;&nbsp;&nbsp;" for="fechaPubDoc" style="font-weight:bold;"/>
+                            <h:outputText class="form-control" id="fechaPubDoc"  value="#{documentacionController.utilDoc.formatearFecha(documentacionController.selected.docFechaPublicacion)}" styleClass="addEspacio form-control" style="color: #3366ff"/>
+
+
+                            <p:outputLabel value="Creditos &nbsp;" for="creditosDoc" style="font-weight:bold;"/>
+                            <h:outputText class="form-control" id="creditosDoc"  value="#{documentacionController.selected.docCreditos}" styleClass="addEspacio form-control" style="color: #3366ff"/>
+
+                            <h:outputLabel value="Estado visado:&nbsp;&nbsp;&nbsp;" for="valEstadoVis" style="font-weight:bold;"/>
+                            <h:outputText class="form-control" id="valEstadoVis" value="#{documentacionController.selected.docVisado}" styleClass="addEspacio form-control" style="color: #3366ff"/>
+                        </h:panelGrid>
+                        <h:panelGrid columns="3" cellspacing="5">
+                            <h:outputLabel value="Cambiar estado visado:" style="font-weight:bold;"/>
+                            <p:selectOneMenu id="console" value="#{documentacionController.selected.docVisado}" style="width:125px">                        
+                                <f:selectItems value="#{documentacionController.tiposVisado}" />
+                            </p:selectOneMenu>
+                            <p:commandButton value="Aceptar" update="valEstadoVis" onclick="PF('dlg2').show();"/>                                    
+
+                            <p:dialog header="Enviar Observaciones" widgetVar="dlg2" modal="true" height="150">                                                
+                                <h:inputTextarea id="obs" rows = "7" cols = "80">
+                                    <f:ajax listener="#{documentacionController.actualizarVisado}" execute="obs" event="blur" ></f:ajax>                                                    
+                                </h:inputTextarea>         
+                                <br/>
+                                <p:commandButton value="Aceptar" update="valEstadoVis" onclick="PF('dlg2').hide()"/>
+                            </p:dialog>              
+                        </h:panelGrid>
+
+                        <h:outputLink  id="ayuda"  style="color: blue" onclick="return false;" >¿Qué es el estado visado?</h:outputLink>
+                        <p:tooltip id="toolTipGrow" for="ayuda" value="Estado visado indica si la publicación aun no ha sido revisada(espera), o si fue aceptada o rechazada." showEffect="clip" hideEffect="blind" />
+                        <br/><br/>
+
+                        <p:panel header="Anexos">
+
+                            <h:panelGrid columns="2" cellpadding="5" styleClass="elementosCentrados bajarGrid"  rendered="#{documentacionController.renderizarRevista() }">
+                                <p:outputLabel value="Título artículo:&nbsp;&nbsp;&nbsp;" for="valNArticulo"  style="font-weight:bold;"/>
+                                <h:outputText class="form-control" id="valNArticulo"  value="#{documentacionController.selected.revista.revTituloArticulo}" styleClass="addEspacio form-control" style="color: #3366ff"/>
+
+                                <p:outputLabel value="Nombre revista:&nbsp;&nbsp;&nbsp;" for="valNRevista" style="font-weight:bold;"/>
+                                <h:outputText class="form-control" id="valNRevista"  value="#{documentacionController.selected.revista.revNombreRevista}" styleClass="addEspacio form-control" style="color: #3366ff"/>
+
+                                <p:outputLabel value="Categoría:&nbsp;&nbsp;&nbsp;" for="valCategoria" style="font-weight:bold;"/>
+                                <h:outputText class="form-control"  id="valCategoria" value="#{documentacionController.selected.revista.revCategoria}" styleClass="addEspacio form-control" style="color: #3366ff" />
+                            </h:panelGrid>
+
+
+                            <h:panelGrid columns="2" cellpadding="5" styleClass="elementosCentrados bajarGrid"  rendered="#{documentacionController.renderizarCongreso() == true}">
+                                <h:outputLabel value="Título ponencia:" for="valNPonencia" style="font-weight:bold;"/>
+                                <h:outputText class="form-control" id="valNPonencia"  value="#{documentacionController.selected.congreso.congTituloPonencia}" styleClass="addEspacio form-control" style="color: #3366ff" />
+
+                                <h:outputLabel value="Nombre evento:" for="valNEvento" style="font-weight:bold;"/>
+                                <h:outputText class="form-control" id="valNEvento"  value="#{documentacionController.selected.congreso.congNombreEvento}" styleClass="addEspacio form-control" style="color: #3366ff" />
+
+                                <h:outputLabel value="Tipo congreso:" for="valTipoCongreso" style="font-weight:bold;"/>
+                                <h:outputText class="form-control"  id="valTipoCongreso" value="#{documentacionController.selected.congreso.congTipoCongreso}" styleClass="addEspacio form-control" style="color: #3366ff" />
+                            </h:panelGrid>            
+
+                            <h:panelGrid columns="2" cellpadding="5" styleClass="elementosCentrados bajarGrid"  rendered="#{documentacionController.renderizarLibro() == true}">
+                                <h:outputLabel value="Título libro:&nbsp;" for="valTLibro" style="font-weight:bold;"/>
+                                <h:outputText class="form-control" id="valTLibro"  value="#{documentacionController.selected.libro.libTituloLibro}" styleClass="addEspacio form-control"/>
+                            </h:panelGrid>            
+
+                            <h:panelGrid columns="2" cellpadding="5" styleClass="elementosCentrados bajarGrid"  rendered="#{documentacionController.renderizarCapLibro() == true}">
+                                <h:outputLabel value="Título libro:&nbsp;" for="valTCLibro" style="font-weight:bold;"/>
+                                <h:outputText class="form-control" id="valTCLibro"  value="#{documentacionController.selected.capituloLibro.caplibTituloLibro}" styleClass="addEspacio form-control" />
+
+                                <h:outputLabel value="Título capítulo libro:&nbsp;" for="valTCapLibro" style="font-weight:bold;"/>
+                                <h:outputText class="form-control" id="valTCapLibro"  value="#{documentacionController.selected.capituloLibro.caplibTituloCapitulo}" styleClass="addEspacio form-control"/>
+                            </h:panelGrid>            
+
+                            <h:panelGrid columns="2" cellpadding="10" styleClass="elementosCentrados bajarGrid" id="panelRegistrar"  >
+                                <p:outputLabel value="Evidencia Publicación:&nbsp;&nbsp;" style="font-weight:bold;"/>
+                                <h:commandButton style="margin-right: 100px ;" value="Ver " action="#{documentacionController.pdfCartaAprob()}" class="btn btn-success" onclick="this.form.target = '_blank'"  ></h:commandButton>
+
+                                <p:outputLabel value="Publicación:" style="font-weight:bold;"/>
+                                <h:commandButton style="margin-right: 100px;"  value="Ver"   action="#{documentacionController.pdfPub()}" class="btn btn-success"  onclick="this.form.target = '_blank'"  onblur="this.form.target = '_self'" />
+
+                                <p:outputLabel value="Tabla de Contenido:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" style="font-weight:bold;"/>
+                                <h:commandButton style="margin-right:  100px; font-size: 13px; " value="Ver "  action="#{documentacionController.pdfPubTC()}" class="btn btn-success"  onclick="this.form.target = '_blank'"  onblur="this.form.target = '_self'" />
+                            </h:panelGrid>
+                        </p:panel>
+                    </p:panel>
+                </p:tab>
+                <br/>
+                <p:commandButton  value="Volver" action="#{vistasCoordinadorController.listarPublicaciones}" class="btn btn-primary"/>                       
+                <br/>
+                <br/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

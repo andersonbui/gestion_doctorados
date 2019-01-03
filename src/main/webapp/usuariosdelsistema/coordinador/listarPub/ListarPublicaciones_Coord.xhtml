@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <h:head>
+        <title>Listado de Documentaciones</title>
+    </h:head>
+    <!-- IMPLEMENTATION -->
+    <ui:composition template="./../../../plantillas/Coordinador.xhtml">
+        <ui:define name="content"> 
+            <div class="panel-heading">
+                <div class="ui-messages-info ">
+                    <span class="ui-messages-info-detail">
+                        <b>Listado General de Documentaciones</b>
+                    </span>
+                </div>
+
+                <p:separator />
+
+                <br/>
+
+                <h:form>
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+                </h:form>
+
+                <h:form>
+                    <h:outputLabel for="textoFiltrado" value="Buscar:&nbsp;&nbsp;&nbsp;" style="font-weight:bold;"/>
+                    <p:inputText id="textoFiltrado" value="" placeholder="Ingrese el nombre del autor, tipo publicación o nombre publicación" size="58">
+                        <p:ajax update=":tablaDocumentaciones" event="keyup"/>
+                    </p:inputText>
+
+                    <br/>
+                    <br/>
+                </h:form>
+
+                <p:separator />
+
+
+                <p:dataTable  id="tablaDocumentaciones" var="doc" value="#{documentacionController.items}" rows="10"
+                              paginator="true"
+                              paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                              rowsPerPageTemplate="5,10,15" emptyMessage="No se tienen publicaciones registradas o no se encuentra ninguna con el criterio de busqueda."
+                              style="text-align: left;">   
+
+                    <p:column headerText="Nombre del autor principal" >
+                        <h:outputText value="#{doc.estId.usuId.nombres}"></h:outputText>
+                    </p:column>
+                    <p:column headerText="Tipo Publicación"  >
+                        <h:outputText value="#{doc.idTipoDocumentacion.nombre}"></h:outputText>
+                    </p:column>
+                    <p:column headerText="visado"  >
+                        <h:outputText value="#{doc.docVisado}"/>
+                    </p:column>
+                    <p:column headerText="Nombre Publicación"  >
+                        <h:outputText value="#{documentacionController.obtenerNombreDoc(doc)}"></h:outputText>
+                    </p:column>
+                    <p:column headerText="Fecha publicación:"  >
+                        <h:outputText value="#{documentacionController.utilDoc.formatearFecha(doc.docFechaPublicacion)}"></h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Acción"   >
+                        <h:form style="font-size: 10px;">
+                            <p:commandButton action="#{documentacionController.verDocumentacion(doc)}" value="Ver" class="btn btn-success btn_listaEstudiantes" style="font-size: 13px;"/>
+                        </h:form>
+                    </p:column>
+                </p:dataTable>
+            </div>
+            <br/>
+            <br/>
+        </ui:define>
+    </ui:composition>
+
+
+</html>
+
+

@@ -1,14 +1,113 @@
-<!DOCTYPE html>
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
-    <head>
-        <title>Start Page</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
-    </head>
-    <body>
-        <h1>Hola mundo cruel!</h1>
-        <a href="faces/login.xhtml">login</a>
-        
-    </body>
-    
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <link rel="shortcut icon" href="#{resource['images/logo_doctorado.ico']}" />
+        <title>SGDD</title>        
+        <h:outputStylesheet name="css/index.css"/>
+
+        <center>
+            <p:panelGrid styleClass="panelgrid" style="background: transparent">
+                <p:row>
+                    <p:column>
+                        <p:graphicImage library="images" name="logo.png"/>
+                    </p:column>
+                    <p:column> 
+                        <div class="separador"></div>
+                    </p:column>
+                    <p:column>
+                        <p:outputLabel  id="desc"  value="Sistema de Control Documental de Posgrados"/>  
+                    </p:column>
+
+                </p:row>
+            </p:panelGrid>
+        </center>
+    </h:head> 
+    <h:body>
+
+        <p:growl autoUpdate="true" showDetail="true"/>
+        <div id="antorcha"></div>
+        <div id="bandera"></div>
+        <div id="centrar">
+
+            <h:form rendered="#{!loginController.logeado}">
+                <!--<p:growl id="mensajes" showDetail="true" sticky="true" />--> 
+                <header>  <div id="logo_doctorado"></div> <br/>Iniciar Sesión</header>
+                <p:panelGrid   columns="1" styleClass="panelgrid" class="transparentBackground" columnClasses="centered" >
+                    <h:panelGroup style="display:block; text-align:center"> 
+                        <p:row>
+                            <p:column>
+                                <h:inputText id="nombreUsuario"  value="#{loginController.username}" required="false" label="username" class="userNameClass"/>
+                            </p:column>
+                            <p:column><br></br></p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column><br></br></p:column>
+                            <p:column>
+                                <h:inputSecret id="password" value="#{loginController.password}" required="false" label="password" class="passwordClass"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:commandButton  style="background: gainsboro; width: 150px; color:#000000; font-weight: bold; "
+                                                  class="botonInicioSesion" value="Ingresar" actionListener="#{loginController.login}" oncomplete="manejarLogin(xhr, status, args)" ></p:commandButton>
+                            </p:column>
+                        </p:row>
+                    </h:panelGroup>
+                </p:panelGrid>
+            </h:form>
+
+            <h:form rendered="#{loginController.logeado}">
+                <header>  <div id="logo_doctorado"></div> <br/>Sesión iniciada</header>
+                <p:panelGrid  columns="1" styleClass="panelgrid" class="transparentBackground" columnClasses="centered" >
+                    <h:panelGroup style="display:block; text-align:center">
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Usted tiene una sesión iniciada"/>
+                                <p:outputLabel value="¿Desea continuar con esta sesión?"/>
+                            </p:column>
+                            <p:column><br></br></p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:commandButton style="background: gainsboro; width: 150px; color:#000000; font-weight: bold; "
+                                                 value="Si" actionListener="#{loginController.login}"
+                                                  oncomplete="manejarLogin(xhr, status, args)"
+                                                 />
+                                <p:commandButton style="background: gainsboro; width: 150px; color:#000000; font-weight: bold; "
+                                                 value="No" action="#{loginController.salir()}"
+                                                 ajax="false"
+                                                 />
+                            </p:column>
+                        </p:row>
+                    </h:panelGroup>
+                </p:panelGrid>
+            </h:form>
+
+        </div>
+        <br /> <br /> 
+        <footer class="pie-index">
+            <p>2017  |  Posgrados facultad de Ingeniería Electrónica y Telecomunicaciones <br />
+                <a href="http://www.unicauca.edu.co">Universidad del Cauca</a>  |  <a style="color: white;" href="mailto:simca@unicauca.edu.co"><span class="glyphicon glyphicon-envelope"></span>&nbsp;@unicauca.edu.co</a>
+            </p>
+        </footer>
+
+
+        <script type="text/javascript">
+            //<![CDATA[
+            function manejarLogin(xhr, status, args) {
+                if (!args.validationFailed && args.estaLogeado) {
+                    setTimeout(function () {
+                        window.location = args.view;
+                    }, 1000);
+                }
+            }
+            //]]>
+        </script>
+    </h:body>
 </html>
+
+
